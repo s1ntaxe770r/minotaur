@@ -9,8 +9,6 @@ type Project struct {
 	LiveURL string `json:"liveurl"`
 
 	Github string `json:"gituhub"  validate:"required"  gorm:"not null"  size:"100"`
-
-	BuiltWith []string `json:"built_with"  validate:"required" size:"20"`
 }
 
 // Projects : multiple projects

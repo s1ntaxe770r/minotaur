@@ -14,6 +14,7 @@ func main() {
 
 	r.HandleFunc("/projects", handlers.GetProjects).Methods("GET")
 	r.HandleFunc("/projects", handlers.CreateProject).Methods("POST")
+	r.HandleFunc("/projects/{id}", handlers.GetProject).Methods("GET")
 	r.HandleFunc("/projects/{id}", handlers.DeleteProject).Methods("DELETE")
 	r.HandleFunc("/projects/{id}", handlers.UpdateProject).Methods("PUT")
 

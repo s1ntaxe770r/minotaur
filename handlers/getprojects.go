@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -17,12 +18,17 @@ func handle(err error) {
 // GetProjects returns all available projects
 func GetProjects(resp http.ResponseWriter, req *http.Request) {
 	resp.Header().Set("Content-Type", "application/json")
+	encoder := json.NewEncoder(resp)
 	dbcon := db.Connect()
 	var project db.Project
 	err := dbcon.Find(&project).Error
+	if err == nil {
+		fmt.Fprintf(resp, "{}")
+		return
+	}
 	handle(err)
-	jrsp := json.NewEncoder(resp).Encode(project)
+	jrsp := encoder.Encode(project)
 	handle(jrsp)
-	json.NewEncoder(resp).Encode(project)
+	encoder.Encode(project)
 
 }

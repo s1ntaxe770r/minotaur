@@ -20,15 +20,15 @@ func GetProjects(resp http.ResponseWriter, req *http.Request) {
 	resp.Header().Set("Content-Type", "application/json")
 	encoder := json.NewEncoder(resp)
 	dbcon := db.Connect()
-	var project db.Project
-	err := dbcon.Find(&project).Error
+	projects := []db.Project{}
+	err := dbcon.Find(&projects).Error
 	if err == nil {
 		fmt.Fprintf(resp, "{}")
 		return
 	}
 	handle(err)
-	jrsp := encoder.Encode(project)
+	jrsp := encoder.Encode(projects)
 	handle(jrsp)
-	encoder.Encode(project)
+	encoder.Encode(projects)
 
 }

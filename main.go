@@ -20,7 +20,7 @@ func main() {
 	r.HandleFunc("/projects/{id}", handlers.DeleteProject).Methods("DELETE")
 	r.HandleFunc("/projects/{id}", handlers.UpdateProject).Methods("PUT")
 
-	log.Printf("server started on  %s", envconf.ServerPort)
+	log.Printf("server started on %s", envconf.ServerPort)
 	log.Fatal(http.ListenAndServe(envconf.ServerPort, r))
 
 }

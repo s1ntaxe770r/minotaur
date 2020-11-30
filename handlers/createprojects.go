@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 
@@ -15,20 +15,25 @@ func CreateProject(resp http.ResponseWriter, req *http.Request) {
 	dbcon := db.Connect()
 	var project db.Project
 	v := validator.New()
-	decdr := json.NewDecoder(req.Body).Decode(&project)
-	if decdr != nil {
-		log.Println(decdr.Error())
-		resp.WriteHeader(http.StatusBadRequest)
-		fmt.Fprintf(resp, "could not read request body")
-	}
-	err := v.Struct(project)
+	reqbody, err := ioutil.ReadAll(req.Body)
+	json.Unmarshal(reqbody, &project)
 	if err != nil {
-		http.Error(resp, err.Error(), http.StatusBadRequest)
+		log.Println(err)
+		log.Println(project)
+		http.Error(resp, "could not read request body", http.StatusBadRequest)
+		return
+	}
+	vlderr := v.Struct(project)
+	if vlderr != nil {
+		log.Println(vlderr)
+		http.Error(resp, vlderr.Error(), http.StatusBadRequest)
+		return
 	}
 	dberr := dbcon.Create(&project).Error
 	handle(dberr)
 	resp.Header().Set("Content-Type", "application/json")
 	resp.WriteHeader(http.StatusOK)
 	json.NewEncoder(resp).Encode(project)
+	return
 
 }

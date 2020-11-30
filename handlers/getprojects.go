@@ -29,6 +29,7 @@ func GetProjects(resp http.ResponseWriter, req *http.Request) {
 	handle(err)
 	jrsp := encoder.Encode(projects)
 	handle(jrsp)
+	resp.Header().Set("Content-Type", "application/json")
 	encoder.Encode(projects)
 
 }

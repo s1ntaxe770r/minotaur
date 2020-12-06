@@ -8,7 +8,7 @@ type Project struct {
 
 	LiveURL string `json:"liveurl"`
 
-	Github string `json:"gituhub"  validate:"required"  gorm:"not null"  size:"100"`
+	Github string `json:"github"  validate:"required"  gorm:"not null"  size:"100"`
 }
 
 // Projects : multiple projects

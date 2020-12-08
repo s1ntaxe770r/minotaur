@@ -19,8 +19,9 @@ func GetProject(resp http.ResponseWriter, req *http.Request) {
 	if jrsp != nil {
 		resp.WriteHeader(http.StatusNotFound)
 		fmt.Fprintf(resp, "failed to retrieve project with id %s ", id)
+		return
 	}
 	resp.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(resp).Encode(jrsp)
+	json.NewEncoder(resp).Encode(project)
 
 }

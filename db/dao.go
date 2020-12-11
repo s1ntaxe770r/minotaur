@@ -23,3 +23,13 @@ func Connect() *gorm.DB {
 	return db
 
 }
+
+// Add creates an entry in the database
+func Add(dbcon *gorm.DB, prj Project) error {
+	err := dbcon.Create(&prj).Error
+	if err != nil {
+		return err
+	}
+	return nil
+
+}

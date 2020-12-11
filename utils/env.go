@@ -20,12 +20,19 @@ func NewConfig() *EnvConfig {
 }
 
 // LoadEnv loads required environment variables if present
-func (ec *EnvConfig) LoadEnv() {
+func (ec *EnvConfig) LoadEnv() string {
 	sp := os.Getenv("SERVER_PORT")
+	var port string
 
 	if sp != " " {
 		ec.ServerPort = ":" + sp
+		port = *&ec.ServerPort
+		return port
+
 	}
-	ec.ServerPort = ":" + "8080"
 	color.Yellow("SERVER_PORT not found using default")
+	ec.ServerPort = ":" + "8080"
+	port = *&ec.ServerPort
+	return port
+
 }

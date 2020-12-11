@@ -20,7 +20,7 @@ func CreateProject(resp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	dberr := dbcon.Create(&project).Error
+	dberr := db.Add(dbcon, project)
 	handle(dberr)
 	dbcon.Commit()
 	resp.Header().Set("Content-Type", "application/json")

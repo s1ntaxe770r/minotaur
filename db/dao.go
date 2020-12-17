@@ -1,10 +1,12 @@
 package db
 
 import (
+	"database/sql"
+	"fmt"
 	"log"
+	"os"
 
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
+	_ "github.com/lib/pq"
 )
 
 func handle(err error) {
@@ -14,22 +16,14 @@ func handle(err error) {
 }
 
 //Connect : Instantiate db connection
-func Connect() *gorm.DB {
-	db, err := gorm.Open(sqlite.Open("ppi.db"), &gorm.Config{})
-	handle(err)
-
-	db.AutoMigrate(&Project{})
-
-	return db
-
-}
-
-// Add creates an entry in the database
-func Add(dbcon *gorm.DB, prj Project) error {
-	err := dbcon.Create(&prj).Error
+func Connect() *sql.DB {
+	user := os.Getenv("PG_USER")
+	// pass := os.Getenv("PG_PASS")
+	dbname := os.Getenv("DB_NAME")
+	constr := fmt.Sprintf("user=%s dbname=%s sslmode=verify-full", user, dbname)
+	db, err := sql.Open("postgres", constr)
 	if err != nil {
-		return err
+		log.Fatal(err)
 	}
-	return nil
-
+	return db
 }

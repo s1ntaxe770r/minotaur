@@ -1,1 +1,3 @@
 ppi.db
+postgres-data/
+justfile

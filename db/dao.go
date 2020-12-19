@@ -17,6 +17,8 @@ func handle(err error) {
 
 //Connect : Instantiate db connection
 func Connect() *sql.DB {
+	var db *sql.DB
+	defer db.Close()
 	user := os.Getenv("PG_USER")
 	pass := os.Getenv("PG_PASS")
 	host := "localhost"

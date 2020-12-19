@@ -31,6 +31,11 @@ func Connect() *sql.DB {
 }
 
 // Insert add a project to the db
-func Insert() error {
-
+func Insert(project *Project, dbcon *sql.DB) error {
+	sqlstmnt := `insert into "projects"("name", "liveurl","github") values($1, $2,$3)`
+	_, inserterr := dbcon.Exec(sqlstmnt, project.Name, project.LiveURL, project.Github)
+	if inserterr != nil {
+		return inserterr
+	}
+	return nil
 }

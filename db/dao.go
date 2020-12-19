@@ -91,12 +91,22 @@ func QueryOne(dbcon *sql.DB, project *Project, id string) error {
 	return nil
 }
 
-//Delete  removes project from db
+// Delete  removes project from db
 func Delete(dbcon *sql.DB, id string) error {
 	sqlstmnt := `delete from "projects" where id=$1`
 	_, err := dbcon.Exec(sqlstmnt, id)
 	if err != nil {
 		return nil
+	}
+	return nil
+}
+
+// Update update a project
+func Update(dbcon *sql.DB, project *Project, id string) error {
+	sqltmnt := `UPDATE projects SET  name=$1, live_url=$2 , github=$3 WHERE id=$4`
+	_, err := dbcon.Exec(sqltmnt, project.Name, project.LiveURL, project.Github, id)
+	if err != nil {
+		return err
 	}
 	return nil
 }

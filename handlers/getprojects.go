@@ -20,8 +20,8 @@ func GetProjects(resp http.ResponseWriter, req *http.Request) {
 	resp.Header().Set("Content-Type", "application/json")
 	encoder := json.NewEncoder(resp)
 	dbcon := db.Connect()
-	var projects db.Project
-	err := dbcon.Find(&projects).Error
+	var projects db.Projects
+	err := db.QueryAll(dbcon, &projects)
 	print(err)
 	if err != nil {
 		log.Println(err)

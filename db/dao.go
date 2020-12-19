@@ -18,12 +18,19 @@ func handle(err error) {
 //Connect : Instantiate db connection
 func Connect() *sql.DB {
 	user := os.Getenv("PG_USER")
-	// pass := os.Getenv("PG_PASS")
+	pass := os.Getenv("PG_PASS")
+	host := "localhost"
 	dbname := os.Getenv("DB_NAME")
-	constr := fmt.Sprintf("user=%s dbname=%s sslmode=verify-full", user, dbname)
+	port := "5432"
+	constr := fmt.Sprintf("user=%s dbname=%s pass=%s port=%s host=%s sslmode=verify-full", user, dbname, pass, port, host)
 	db, err := sql.Open("postgres", constr)
 	if err != nil {
 		log.Fatal(err)
 	}
 	return db
+}
+
+// Insert add a project to the db
+func Insert() error {
+
 }

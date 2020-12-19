@@ -12,8 +12,7 @@ func DeleteProject(resp http.ResponseWriter, req *http.Request) {
 	dbcon := db.Connect()
 	vars := mux.Vars(req)
 	id := vars["id"]
-	var project db.Project
-	jrsp := dbcon.Delete(&project, "id = ?", id).Error
+	jrsp := db.Delete(dbcon, id)
 	if jrsp != nil {
 		resp.Header().Set("Content-Type", "application/json")
 		resp.WriteHeader(http.StatusInternalServerError)

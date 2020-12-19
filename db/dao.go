@@ -39,3 +39,36 @@ func Insert(project *Project, dbcon *sql.DB) error {
 	}
 	return nil
 }
+
+// QueryAll  returns all projects
+func QueryAll(projects *Projects, dbcon *sql.DB) error {
+	rows, err := dbcon.Query(`
+		SELECT
+			id,
+			name,
+			live_url,
+			github
+		FROM projects`)
+	if err != nil {
+		return err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		proj := Project{}
+		err = rows.Scan(
+			&proj.ID,
+			&proj.Name,
+			&proj.LiveURL,
+			&proj.Github,
+		)
+		if err != nil {
+			return err
+		}
+		projects.projects = append(projects.projects, proj)
+	}
+	err = rows.Err()
+	if err != nil {
+		return err
+	}
+	return nil
+}

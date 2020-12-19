@@ -41,7 +41,7 @@ func Insert(project *Project, dbcon *sql.DB) error {
 }
 
 // QueryAll  returns all projects
-func QueryAll(projects *Projects, dbcon *sql.DB) error {
+func QueryAll(dbcon *sql.DB, projects *Projects) error {
 	rows, err := dbcon.Query(`
 		SELECT
 			id,
@@ -85,6 +85,16 @@ func QueryOne(dbcon *sql.DB, project *Project, id string) error {
 	)
 	if err != nil {
 		return err
+	}
+	return nil
+}
+
+//Delete  removes project from db
+func Delete(dbcon *sql.DB, id string) error {
+	sqlstmnt := `delete from "projects" where id=$1`
+	_, err := dbcon.Exec(sqlstmnt, id)
+	if err != nil {
+		return nil
 	}
 	return nil
 }

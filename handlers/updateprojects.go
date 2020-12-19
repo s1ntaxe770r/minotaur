@@ -8,18 +8,16 @@ import (
 	"github.com/s1ntaxe770r/PPI/db"
 )
 
-// UpdateProjects handles project updates
-
+// UpdateProject handles project updates
 func UpdateProject(resp http.ResponseWriter, req *http.Request) {
 	dbcon := db.Connect()
 	vars := mux.Vars(req)
 	id := vars["id"]
 	var project db.Project
 	json.NewDecoder(req.Body).Decode(&project)
-	qry := dbcon.First(&project, "id = ?", id)
-	err := qry.Save(&project).Error
+	newproject, err := db.Update(dbcon, &project, id)
 	handle(err)
-	json.NewEncoder(resp).Encode(project)
+	json.NewEncoder(resp).Encode(&newproject)
 	return
 
 }

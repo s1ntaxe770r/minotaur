@@ -15,7 +15,7 @@ func GetProject(resp http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	id := vars["id"]
 	var project db.Project
-	jrsp := dbcon.First(&project, "id = ?", id).Error
+	jrsp := db.QueryOne(dbcon, &project, id)
 	if jrsp != nil {
 		resp.WriteHeader(http.StatusNotFound)
 		fmt.Fprintf(resp, "failed to retrieve project with id %s ", id)

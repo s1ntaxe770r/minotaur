@@ -23,12 +23,10 @@ func NewConfig() *EnvConfig {
 func (ec *EnvConfig) LoadEnv() string {
 	sp := os.Getenv("SERVER_PORT")
 	var port string
-
-	if sp != " " {
+	if sp != "" {
 		ec.ServerPort = ":" + sp
 		port = *&ec.ServerPort
 		return port
-
 	}
 	color.Yellow("SERVER_PORT not found using default")
 	ec.ServerPort = ":" + "8080"

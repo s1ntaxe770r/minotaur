@@ -16,13 +16,13 @@ func CreateProject(resp http.ResponseWriter, req *http.Request) {
 	v := validator.New()
 	vlderr := v.Struct(project)
 	if vlderr != nil {
-		http.Error(resp, vlderr.Error(), http.StatusBadRequest)
-		return
+		if _, ok := vlderr.(*validator.InvalidValidationError); ok {
+			http.Error(resp, vlderr.Error(), http.StatusBadRequest)
+			return
+		}
 	}
-
-	dberr := db.Add(dbcon, project)
+	dberr := db.Insert(&project, dbcon)
 	handle(dberr)
-	dbcon.Commit()
 	resp.Header().Set("Content-Type", "application/json")
 	resp.WriteHeader(http.StatusOK)
 	json.NewEncoder(resp).Encode(project)

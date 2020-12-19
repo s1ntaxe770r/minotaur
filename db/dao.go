@@ -72,3 +72,19 @@ func QueryAll(projects *Projects, dbcon *sql.DB) error {
 	}
 	return nil
 }
+
+// QueryOne retrieve a single project
+func QueryOne(dbcon *sql.DB, project *Project, id string) error {
+	sqltmnt := `SELECT id ,name,live_url,github FROM projects WHERE id=$1 ORDER BY id DESC LIMIT 1`
+	row := dbcon.QueryRow(sqltmnt, id)
+	err := row.Scan(
+		project.ID,
+		project.Name,
+		project.LiveURL,
+		project.Github,
+	)
+	if err != nil {
+		return err
+	}
+	return nil
+}

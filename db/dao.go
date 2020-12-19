@@ -102,11 +102,11 @@ func Delete(dbcon *sql.DB, id string) error {
 }
 
 // Update update a project
-func Update(dbcon *sql.DB, project *Project, id string) error {
+func Update(dbcon *sql.DB, project *Project, id string) (*Project, error) {
 	sqltmnt := `UPDATE projects SET  name=$1, live_url=$2 , github=$3 WHERE id=$4`
 	_, err := dbcon.Exec(sqltmnt, project.Name, project.LiveURL, project.Github, id)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	return project, nil
 }

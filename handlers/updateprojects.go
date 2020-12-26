@@ -11,6 +11,7 @@ import (
 // UpdateProject handles project updates
 func UpdateProject(resp http.ResponseWriter, req *http.Request) {
 	dbcon := db.Connect()
+	defer dbcon.Close()
 	vars := mux.Vars(req)
 	id := vars["id"]
 	var project db.Project

@@ -19,7 +19,7 @@ exclude_dir = ["assets", "tmp", "vendor", "frontend/node_modules"]
 # Watch these directories if you specified.
 include_dir = []
 # Exclude files.
-exclude_file = []
+exclude_file = ["postgres-data"]
 # Exclude unchanged files.
 exclude_unchanged = true
 # This log file places in your tmp_dir.

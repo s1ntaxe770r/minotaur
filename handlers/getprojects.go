@@ -17,15 +17,20 @@ func handle(err error) {
 
 // GetProjects returns all available projects
 func GetProjects(resp http.ResponseWriter, req *http.Request) {
+	dbcon := db.Connect()
+	defer dbcon.Close()
 	resp.Header().Set("Content-Type", "application/json")
 	encoder := json.NewEncoder(resp)
-	dbcon := db.Connect()
 	var projects db.Projects
 	err := db.QueryAll(dbcon, &projects)
 	print(err)
 	if err != nil {
 		log.Println(err)
-		fmt.Fprintf(resp, "{}")
+		return
+	}
+	if err == nil {
+		resp.Header().Set("Content-Type", "application/json")
+		fmt.Fprintf(resp, "no entries found pls update the api")
 		return
 	}
 	handle(err)

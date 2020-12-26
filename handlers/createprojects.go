@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/s1ntaxe770r/PPI/db"
@@ -15,17 +14,11 @@ func CreateProject(resp http.ResponseWriter, req *http.Request) {
 	defer dbcon.Close()
 	project := db.Project{}
 	json.NewDecoder(req.Body).Decode(&project)
-	fmt.Println(project.Github)
-	fmt.Println(project.LiveURL)
-	fmt.Println(project.Name)
-
 	v := validator.New()
 	vlderr := v.Struct(project)
 	if vlderr != nil {
-		if _, ok := vlderr.(*validator.InvalidValidationError); ok {
-			http.Error(resp, vlderr.Error(), http.StatusBadRequest)
-			return
-		}
+		http.Error(resp, vlderr.Error(), http.StatusBadRequest)
+		return
 	}
 	dberr := db.Insert(project, dbcon)
 	handle(dberr)

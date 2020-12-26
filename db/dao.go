@@ -55,34 +55,25 @@ func Insert(project Project, dbcon *sql.DB) error {
 }
 
 // QueryAll  returns all projects
-func QueryAll(dbcon *sql.DB, projects *Projects) error {
-	rows, err := dbcon.Query(`SELECT * FROM projects`)
+func QueryAll(dbcon *sql.DB) ([]*Project, error) {
+	rows, err := dbcon.Query(`SELECT id, name , live_url , github FROM projects`)
 	if err != nil {
-		dblogger.Println(err)
-		return err
+		return nil, err
 	}
 	defer rows.Close()
+	projects := []*Project{}
 	for rows.Next() {
-		proj := Project{}
-		err = rows.Scan(
-			&proj.ID,
-			&proj.Name,
-			&proj.LiveURL,
-			&proj.Github,
-		)
+		project := &Project{}
+
+		err := rows.Scan(&project.ID, &project.Name, &project.LiveURL, &project.Github)
 		if err != nil {
-			dblogger.Println(err)
-			return err
+			return nil, err
 		}
-		projects.projects = append(projects.projects, proj)
-		dblogger.Println(projects.projects)
+		projects = append(projects, project)
+
 	}
-	err = rows.Err()
-	if err != nil {
-		dblogger.Println(err)
-		return err
-	}
-	return nil
+	return projects, nil
+
 }
 
 // QueryOne retrieve a single project

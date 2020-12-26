@@ -12,6 +12,4 @@ type Project struct {
 }
 
 // Projects : multiple projects
-type Projects struct {
-	projects []Project
-}
+var Projects []Project

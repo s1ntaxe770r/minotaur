@@ -20,23 +20,19 @@ func GetProjects(resp http.ResponseWriter, req *http.Request) {
 	dbcon := db.Connect()
 	defer dbcon.Close()
 	resp.Header().Set("Content-Type", "application/json")
-	encoder := json.NewEncoder(resp)
-	var projects db.Projects
-	err := db.QueryAll(dbcon, &projects)
-	print(err)
+	projects, err := db.QueryAll(dbcon)
 	if err != nil {
 		log.Println(err)
-		return
-	}
-	if err == nil {
-		resp.Header().Set("Content-Type", "application/json")
-		fmt.Fprintf(resp, "no entries found pls update the api")
+		http.Error(resp, "could not retrieve projects from the db", http.StatusInternalServerError)
 		return
 	}
 	handle(err)
-	jrsp := encoder.Encode(projects)
-	handle(jrsp)
+	jrsp, err := json.Marshal(projects)
+	if err != nil {
+		fmt.Println(fmt.Errorf("Error: %v", err))
+		resp.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 	resp.Header().Set("Content-Type", "application/json")
-	encoder.Encode(jrsp)
-
+	resp.Write(jrsp)
 }

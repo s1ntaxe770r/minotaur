@@ -17,10 +17,8 @@ func CreateProject(resp http.ResponseWriter, req *http.Request) {
 	v := validator.New()
 	vlderr := v.Struct(project)
 	if vlderr != nil {
-		if _, ok := vlderr.(*validator.InvalidValidationError); ok {
-			http.Error(resp, vlderr.Error(), http.StatusBadRequest)
-			return
-		}
+		http.Error(resp, vlderr.Error(), http.StatusBadRequest)
+		return
 	}
 	dberr := db.Insert(project, dbcon)
 	handle(dberr)

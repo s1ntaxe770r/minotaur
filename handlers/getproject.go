@@ -12,6 +12,7 @@ import (
 // GetProject returns the project with the specified id
 func GetProject(resp http.ResponseWriter, req *http.Request) {
 	dbcon := db.Connect()
+	defer dbcon.Close()
 	vars := mux.Vars(req)
 	id := vars["id"]
 	var project db.Project

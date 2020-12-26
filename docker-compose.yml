@@ -5,9 +5,10 @@ services:
     image: postgres:alpine 
     restart: always
     environment:
-      POSTGRES_PASSWORD: pgadmin999 
-      POSTGRES_USER : root
+      POSTGRES_PASSWORD: rooster
+      POSTGRES_USER : rooster
     volumes:
        - ./postgres-data:/var/lib/postgresql/data
+       - ./home:/home
     ports:
       - 5432:5432

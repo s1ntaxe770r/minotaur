@@ -10,6 +10,7 @@ import (
 // DeleteProject handles removal of projects
 func DeleteProject(resp http.ResponseWriter, req *http.Request) {
 	dbcon := db.Connect()
+	defer dbcon.Close()
 	vars := mux.Vars(req)
 	id := vars["id"]
 	jrsp := db.Delete(dbcon, id)

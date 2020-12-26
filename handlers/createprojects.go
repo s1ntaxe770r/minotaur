@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/s1ntaxe770r/PPI/db"
@@ -11,8 +12,13 @@ import (
 // CreateProject handles new projects additons
 func CreateProject(resp http.ResponseWriter, req *http.Request) {
 	dbcon := db.Connect()
-	var project db.Project
+	defer dbcon.Close()
+	project := db.Project{}
 	json.NewDecoder(req.Body).Decode(&project)
+	fmt.Println(project.Github)
+	fmt.Println(project.LiveURL)
+	fmt.Println(project.Name)
+
 	v := validator.New()
 	vlderr := v.Struct(project)
 	if vlderr != nil {
@@ -21,11 +27,10 @@ func CreateProject(resp http.ResponseWriter, req *http.Request) {
 			return
 		}
 	}
-	dberr := db.Insert(&project, dbcon)
+	dberr := db.Insert(project, dbcon)
 	handle(dberr)
 	resp.Header().Set("Content-Type", "application/json")
 	resp.WriteHeader(http.StatusOK)
 	json.NewEncoder(resp).Encode(project)
-	return
 
 }

@@ -1,17 +1,25 @@
-FROM golang:latest
+FROM golang:latest as builder
 
 RUN mkdir /app
 
 WORKDIR /app
 
-ADD . /app
+COPY go.mod .
 
-COPY . . 
+COPY go.sum . 
 
 RUN go mod download
 
-RUN CGO_ENABLED=0 
+COPY . . 
 
-RUN go build -o main .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o main 
+
+FROM alpine 
+
+
+COPY --from=builder /app/main /main
+
+EXPOSE 8080 
+
 
 ENTRYPOINT [ "/app/main" ]

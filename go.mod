@@ -1,4 +1,4 @@
-module github.com/s1ntaxe770r/PPI
+module github.com/s1ntaxe770r/minotaur
 
 go 1.15
 

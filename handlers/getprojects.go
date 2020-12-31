@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/s1ntaxe770r/PPI/db"
+	"github.com/s1ntaxe770r/minotaur/db"
 )
 
 func handle(err error) {

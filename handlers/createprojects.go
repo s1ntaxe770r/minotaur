@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/s1ntaxe770r/PPI/db"
+	"github.com/s1ntaxe770r/minotaur/db"
 	"gopkg.in/go-playground/validator.v9"
 )
 

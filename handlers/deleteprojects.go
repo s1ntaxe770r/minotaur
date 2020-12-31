@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/s1ntaxe770r/PPI/db"
+	"github.com/s1ntaxe770r/minotaur/db"
 )
 
 // DeleteProject handles removal of projects

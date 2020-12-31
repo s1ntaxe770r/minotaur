@@ -6,7 +6,7 @@ import (
 	"os"
 
 	_ "github.com/lib/pq"
-	"github.com/s1ntaxe770r/PPI/utils"
+	"github.com/s1ntaxe770r/minotaur/utils"
 )
 
 func handle(err error) {

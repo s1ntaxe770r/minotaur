@@ -6,8 +6,8 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/gorilla/mux"
-	"github.com/s1ntaxe770r/PPI/handlers"
-	"github.com/s1ntaxe770r/PPI/utils"
+	"github.com/s1ntaxe770r/minotaur/handlers"
+	"github.com/s1ntaxe770r/minotaur/utils"
 	"github.com/s1ntaxe770r/requel"
 )
 
